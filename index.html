@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Data Pro | Công cụ tạo dữ liệu ngẫu nhiên chuyên nghiệp</title>
+    <meta name="description" content="Tạo dữ liệu ngẫu nhiên theo khoảng giá trị hoặc mẫu định dạng. Xuất CSV và sao chép dễ dàng vào Excel.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database"><path d="M3 5V19C3 20.66 7.03 22 12 22C16.97 22 21 20.66 21 19V5"/><path d="M3 5C3 6.66 7.03 8 12 8C16.97 8 21 6.66 21 5C21 3.34 16.97 2 12 2C7.03 2 3 3.34 3 5Z"/><path d="M3 12C3 13.66 7.03 15 12 15C16.97 15 21 13.66 21 12"/></svg>
+                <span>Random Data Pro</span>
+            </div>
+            <p class="tagline">Tạo dữ liệu thử nghiệm nhanh chóng & chính xác</p>
+        </header>
+
+        <main>
+            <aside class="config-panel">
+                <div class="card glass">
+                    <h3>Cấu hình dữ liệu</h3>
+                    
+                    <div class="tab-group">
+                        <button class="tab-btn active" data-type="range">Theo khoảng</button>
+                        <button class="tab-btn" data-type="pattern">Theo mẫu (Pattern)</button>
+                    </div>
+
+                    <div id="range-config" class="config-section">
+                        <div class="input-group">
+                            <label for="min-val">Giá trị nhỏ nhất</label>
+                            <input type="number" id="min-val" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="max-val">Giá trị lớn nhất</label>
+                            <input type="number" id="max-val" value="100">
+                        </div>
+                        <div class="input-group">
+                            <label for="decimals">Số chữ số thập phân</label>
+                            <input type="number" id="decimals" value="0" min="0" max="10">
+                        </div>
+                    </div>
+
+                    <div id="pattern-config" class="config-section hidden">
+                        <div class="input-group">
+                            <label for="pattern-str">Mẫu định dạng (x = số)</label>
+                            <input type="text" id="pattern-str" placeholder="ITEM-xxxx" value="ID-xxxx">
+                            <small>Sử dụng 'x' để đại diện cho 1 chữ số ngẫu nhiên</small>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="grid-config">
+                        <div class="input-group">
+                            <label for="rows">Số hàng</label>
+                            <input type="number" id="rows" value="10" min="1" max="500">
+                        </div>
+                        <div class="input-group">
+                            <label for="cols">Số cột</label>
+                            <input type="number" id="cols" value="3" min="1" max="50">
+                        </div>
+                    </div>
+
+                    <button id="generate-btn" class="primary-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-cw"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+                        Tạo dữ liệu ngay
+                    </button>
+                </div>
+            </aside>
+
+            <section class="display-panel">
+                <div class="card glass table-card">
+                    <div class="table-header">
+                        <h3>Dữ liệu được tạo</h3>
+                        <div class="table-actions">
+                            <button id="copy-btn" class="secondary-btn" title="Sao chép cho Excel">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                                Sao chép
+                            </button>
+                            <button id="export-btn" class="secondary-btn" title="Xuất file CSV">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                Xuất CSV
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper" id="table-wrapper">
+                        <div class="empty-state">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-table-properties"><path d="M15 3v18"/><path d="M8 3v18"/><path d="M3 15h18"/><path d="M3 8h18"/><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+                            <p>Chưa có dữ liệu. Hãy cấu hình và nhấn "Tạo dữ liệu ngay".</p>
+                        </div>
+                        <table id="data-table">
+                            <!-- JS will inject table content here -->
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Random Data Pro. Thiết kế bởi Antigravity.</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast">Đã sao chép vào bộ nhớ tạm!</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
